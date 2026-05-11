@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - names: Download build artifacts
+      - name: Download build artifacts
         uses: actions/download-artifact@v8
         with:
           name: mon_artefact
@@ -47,3 +47,4 @@ jobs:
         run: ls -la dist
       - name: Deploy
         run: echo "Deploying..."
+          
