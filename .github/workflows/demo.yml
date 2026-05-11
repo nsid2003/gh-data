@@ -43,7 +43,7 @@ jobs:
         with:
           name: mon_artefact
       
-      - names: List files
+      - name: List files
         run: ls -la dist
       - name: Deploy
         run: echo "Deploying..."
