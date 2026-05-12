@@ -9,6 +9,12 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
+          
+      - name: cache dependencies
+        uses: actions/cache@v5
+        with:
+          path: ~/.npm # cache le dossier des modules Node.js pour accélérer les installations futures
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }} # génère une clé de cache basée sur le contenu du fichier package-lock.json pour s'assurer que le cache est mis à jour lorsque les dépendances changent
       - name: Install dependencies
         run: npm ci
       - name: Lint code
@@ -23,6 +29,12 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
+
+      - name: cache dependencies
+        uses: actions/cache@v5
+        with:
+          path: ~/.npm # cache le dossier des modules Node.js pour accélérer les installations futures
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }} # génère une clé de cache basée sur le contenu du fichier package-lock.json pour s'assurer que le cache est mis à jour lorsque les dépendances changent
       - name: Install dependencies
         run: npm ci
       - name: Build website
