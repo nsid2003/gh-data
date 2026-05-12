@@ -18,6 +18,8 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    outputs:
+      script-files: ${{ steps.publish-js-filename.outputs.script-files }}
     steps:
       - name: Get code
         uses: actions/checkout@v3
@@ -27,7 +29,8 @@ jobs:
         run: npm run build
       
       - name: Publish JS filename
-        run: find dist/assets/*.js -type f -execdir echo '{}' ';'
+        id: publish-js-filename
+        run: find dist/assets/*.js -type f -execdir echo '::set-output name=script-files::{}' ';' # permet de récupérer le nom du fichier JS généré et de le stocker dans une variable d'environnement pour les étapes suivantes
       - name: Upload build artifacts
         uses: actions/upload-artifact@v7
         with:
@@ -49,6 +52,9 @@ jobs:
       
       - name: List files
         run: ls -la dist
+
+      - name: Output filename
+        run: echo " ${{ needs.build.outputs.script-files }}" # permet d'afficher le nom du fichier JS généré dans les logs de l'étape de déploiement pour vérifier que la variable d'environnement a été correctement transmise depuis l'étape de build
       - name: Deploy
         run: echo "Deploying..."
           
